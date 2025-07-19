@@ -2,37 +2,39 @@ name: Student Registry App CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18.x]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+    - name: Install dependencies
+      run: npm ci
 
-      - name: Start the application
-        run: npm start &
+    - name: Make mocha executable
+      run: chmod +x ./node_modules/.bin/mocha
 
-      - name: Wait for app to start
-        run: sleep 5
+    - name: Start application
+      run: npm start &
 
-      - name: Run tests
-        run: npx mocha tests/*.js
+    - name: Wait for app to start
+      run: sleep 5
+
+    - name: Run tests with npx
+      run: npx mocha tests/*.js
