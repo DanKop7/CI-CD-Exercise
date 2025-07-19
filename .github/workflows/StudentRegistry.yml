@@ -35,4 +35,4 @@ jobs:
         run: sleep 5
 
       - name: Run tests
-        run: npm test
+        run: npx mocha tests/*.js
