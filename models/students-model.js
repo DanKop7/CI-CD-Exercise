@@ -1,3 +1,6 @@
-const fs = require('fs');
-module.exports = JSON.parse(
-  fs.readFileSync('./models/students.json'));
+import { readFileSync } from 'fs';
+
+const students = JSON.parse(
+  readFileSync('./models/students.json', 'utf-8'));
+
+export default students;

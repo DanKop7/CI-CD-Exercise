@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import studentsController from './controllers/students-controller.js';
+import { setup } from './controllers/students-controller.js';
 import students from './models/students-model.js';
 
 const app = express();
@@ -10,7 +10,7 @@ app.set('view engine', 'pug');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-studentsController.setup(app, students);
+setup(app, students);
 
 let port = process.argv[2];
 if (!port) port = process.env.PORT;
@@ -25,3 +25,4 @@ app.listen(port, () => {
   else 
     throw err;
 });
+
